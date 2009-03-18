@@ -85,14 +85,10 @@ MacPorts
 --------
 
 MacPorts_ offers Django for Python 2.5 and Python 2.6 within the py25-django
-and py26-django packages respectively. These Portfiles normally contain the
-latest stable release and also offer at least one installation-variant, so
-check the available options options using ``sudo port variants
-<package-name>``.
-
-If you're using Python 2.4 there also may or may not be a py-django package
-available. [At the time of writing, the py-django packages was still in the
-queue.]
+and py26-django packages respectively. Django for Python 2.4 can be found in
+the py-django package. These Portfiles normally contain the latest stable
+release and might also offer at least one installation-variant, so check the
+available options options using ``sudo port variants <package-name>``.
 
 .. _MacPorts: http://www.macports.org/
 

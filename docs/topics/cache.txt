@@ -477,6 +477,19 @@ time, rather than :setting:`CACHE_MIDDLEWARE_SECONDS`. Using the decorators in
 the ``never_cache`` decorator). See the `using other headers`__ section for
 more on these decorators.
 
+.. _middleware_cache_key:
+
+The key used by the middleware to store and retrieve pages is based on the
+request path  as well as all the headers provided by ``request.META``. The
+actual key format looks like this::
+
+    views.decorators.cache.cache_page.<key-prefix>.<http-method>.<MD5(path)>.<MD5(headers)>
+
+.. note::
+
+    The format of the cache key and its generation is part of Django's private
+    API and is therefor not guaranteed to be stable between releases.
+
 .. _i18n-cache-key:
 
 .. versionadded:: 1.2
@@ -547,6 +560,9 @@ The two settings can also be combined. If you specify a ``cache`` *and*
 a ``key_prefix``, you will get all the settings of the requested cache
 alias, but with the key_prefix overridden.
 
+The key used by this function is generated using the same logic as the one
+used by the :ref:`CacheMiddleware <middleware_cache_key>`.
+
 Specifying per-view cache in the URLconf
 ----------------------------------------
 
@@ -610,6 +626,18 @@ template tag to uniquely identify the cache fragment:
 
 It's perfectly fine to specify more than one argument to identify the fragment.
 Simply pass as many arguments to ``{% cache %}`` as you need.
+
+The key generated based on the fragment name and the additional arguments has
+following format::
+
+    template.cache.<fragment-name>.<MD5(arguments)>
+
+The arguments are resolved within the current context, URL-quoted and joined
+with a colon. The resulting string is then MD5-hashed and appended to the
+key. So, for instance, in the example above if the current user's
+username were "username", the generated cache key would look like this::
+
+    template.cache.sidebar.14c4b06b824ec593239362517f538b29
 
 If :setting:`USE_I18N` is set to ``True`` the per-site middleware cache will
 :ref:`respect the active language<i18n-cache-key>`. For the ``cache`` template

@@ -480,8 +480,8 @@ more on these decorators.
 .. _middleware_cache_key:
 
 The key used by the middleware to store and retrieve pages is based on the
-request path  as well as all the headers provided by ``request.META``. The
-actual key format looks like this::
+request path  as well as all the header values provided by ``request.META``.
+The actual key format looks like this::
 
     views.decorators.cache.cache_page.<key-prefix>.<http-method>.<MD5(path)>.<MD5(headers)>
 
